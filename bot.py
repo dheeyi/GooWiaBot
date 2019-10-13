@@ -28,9 +28,17 @@ logger = logging.getLogger(__name__)
 
 # Define a few command handlers. These usually take the two arguments update and
 # context. Error handlers also receive the raised TelegramError object in error.
-def start(update, context):
+def start(bot, context):
     """Send a message when the command /start is issued."""
-    update.message.reply_text('Hi!')
+    chat_id = bot.message.chat_id
+    bot.sendMessage(chat_id, ("ChatBot Clinica 10Ten"))
+    bot.sendMessage(chat_id, ("Tiene las siguientes operaciones disponibles: \n"))
+    bot.sendMessage(chat_id, ("/help (Ayuda)\n"
+                              "Desde este chat usted puede realizar consultas, cancelar y reservar citas medicas"))
+    bot.sendMessage(chat_id, ("/consultar (Lunes 15:30 Odontologia)\nIndique el dia, la hora y la especialidad"))
+    bot.sendMessage(chat_id, ("/reservar (Lunes 15:30 Odontologia)\nReserve una cita medica"))
+    bot.sendMessage(chat_id, ("/cancelar (Lunes 15:30 Odontologia)\nCancelar una cita medica"))
+    bot.sendMessage(chat_id, ("/diccionario (paracetamol)\nRevisar medicamentos o alghnos terminos de medicina"))
 
 
 def help(update, context):
