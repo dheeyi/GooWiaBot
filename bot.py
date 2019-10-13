@@ -31,29 +31,59 @@ logger = logging.getLogger(__name__)
 def start(bot, context):
     """Send a message when the command /start is issued."""
     chat_id = bot.message.chat_id
-    bot.sendMessage(chat_id, ("ChatBot Clinica 10Ten"))
-    bot.sendMessage(chat_id, ("Tiene las siguientes operaciones disponibles: \n"))
-    bot.sendMessage(chat_id, ("/help (Ayuda)\n"
-                              "Desde este chat usted puede realizar consultas, cancelar y reservar citas medicas"))
-    bot.sendMessage(chat_id, ("/consultar (Lunes 15:30 Odontologia)\nIndique el dia, la hora y la especialidad"))
-    bot.sendMessage(chat_id, ("/reservar (Lunes 15:30 Odontologia)\nReserve una cita medica"))
-    bot.sendMessage(chat_id, ("/cancelar (Lunes 15:30 Odontologia)\nCancelar una cita medica"))
-    bot.sendMessage(chat_id, ("/diccionario (paracetamol)\nRevisar medicamentos o alghnos terminos de medicina"))
+    bot.message.reply_text("ChatBot Clinica 10Ten"
+                           "\nDesde este chat usted puede realizar consultas, cancelar y reservar citas medicas")
+    bot.message.reply_text("/acceder (username)\nIndique su usuario")
+    bot.message.reply_text("/consultar (Lunes 15:30 Odontologia)\nIndique el dia, la hora y la especialidad")
+    bot.message.reply_text("/reservar (Lunes 15:30 Odontologia)\nReserve una cita medica")
+    bot.message.reply_text("/cancelar (Lunes 15:30 Odontologia)\nCancelar una cita medica")
+    bot.message.reply_text("/diccionario (paracetamol)\nRevisar medicamentos o alghnos terminos de medicina")
 
 
 def help(update, context):
     """Send a message when the command /help is issued."""
-    update.message.reply_text('Help!')
+    update.message.reply_text('En que le podemos ayudar!!!')
 
 
 def echo(update, context):
     """Echo the user message."""
-    update.message.reply_text(update.message.text)
+    if update.message.text.upper() == 'HOLA' or update.message.text.upper() == 'BUEN DIA' or update.message.text.upper() == 'BUENOS DIAS':
+        update.message.reply_text('Hola buen dia!!!')
+    else:
+        update.message.reply_text('No reconozco la instruccion, aun estoy aprendiendo!!!')
 
 
 def error(update, context):
     """Log Errors caused by Updates."""
     logger.warning('Update "%s" caused error "%s"', update, context.error)
+
+
+def acceder(bot, context):
+    try:
+        bot.message.reply_text('Bienvenido ' + context.args[0])
+    except(TypeError, NameError, ValueError):
+        bot.message.reply_text('ERROR!!!')
+
+
+def consultar(bot, context):
+    try:
+        bot.message.reply_text('Horario no disponible.')
+    except(TypeError, NameError, ValueError):
+        bot.message.reply_text('ERROR!!!')
+
+
+def reservar(bot, context):
+    try:
+        bot.message.reply_text('Reservacion exitosa.')
+    except(TypeError, NameError, ValueError):
+        bot.message.reply_text('ERROR!!!')
+
+
+def cancelar(bot, context):
+    try:
+        bot.message.reply_text('Cancelacion exitosa.')
+    except(TypeError, NameError, ValueError):
+        bot.message.reply_text('ERROR!!!')
 
 
 def main():
@@ -68,6 +98,10 @@ def main():
 
     # on different commands - answer in Telegram
     dp.add_handler(CommandHandler("start", start))
+    dp.add_handler(CommandHandler("acceder", acceder))
+    dp.add_handler(CommandHandler("consultar", consultar))
+    dp.add_handler(CommandHandler("reservar", reservar))
+    dp.add_handler(CommandHandler("cancelar", cancelar))
     dp.add_handler(CommandHandler("help", help))
 
     # on noncommand i.e message - echo the message on Telegram
